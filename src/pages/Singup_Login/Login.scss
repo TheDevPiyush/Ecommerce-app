@@ -1,0 +1,45 @@
+.login-main {
+    width: 100%;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input-container {
+    margin-top: 20px;
+    border: 1px solid lightgray;
+    padding: 1.5rem;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+#reg-text {
+    margin-top: 1.3rem;
+    margin-bottom: .4rem;
+}
+
+.btn-container {
+    width: 100%;
+    margin: auto;
+    margin-top: 1.5rem;
+}
+
+.border-div {
+    margin: auto;
+    margin-top: 2rem;
+    position: relative;
+    border-top: 2px solid lightgray;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+
+    .or-text {
+        position: absolute;
+        top: -16px;
+        background-color: white;
+        left: 41%;
+        padding: 5px;
+        color: gray;
+    }
+}
