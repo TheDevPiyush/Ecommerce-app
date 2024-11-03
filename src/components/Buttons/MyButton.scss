@@ -9,6 +9,8 @@
     user-select: none;
     border-radius: 10px;
     width: 100%;
+    font-weight: 500;
+
 
     &:active {
         background-color: rgb(22, 109, 196);
@@ -29,6 +31,7 @@
     border: none;
     user-select: none;
     border-radius: 10px;
+    font-weight: 500;
 
     &:active {
         background-color: rgb(22, 109, 196);
@@ -38,6 +41,7 @@
         background-color: rgba(68, 162, 255, 0.22);
     }
 }
-.signinbtn{
+
+.signinbtn {
     font-size: large;
 }

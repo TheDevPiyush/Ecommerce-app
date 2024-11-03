@@ -9,9 +9,8 @@
 .input-container {
     margin-top: 20px;
     border: 1px solid lightgray;
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: 20px;
-    width: fit-content;
 }
 
 #reg-text {
@@ -30,7 +29,7 @@
     margin-top: 2rem;
     position: relative;
     border-top: 2px solid lightgray;
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 
@@ -41,5 +40,23 @@
         left: 41%;
         padding: 5px;
         color: gray;
+    }
+}
+
+.checkBox-container {
+    display: flex;
+    justify-content: space-between;
+    user-select: none;
+    color: dodgerblue;
+    font-weight: 500;
+
+    label {
+        cursor: pointer;
+    }
+
+    input[type="checkbox"]{
+        scale: 1.5;
+        outline: none;
+        border: 1px solid dodgerblue;
     }
 }
