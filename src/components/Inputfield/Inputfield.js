@@ -4,7 +4,8 @@ export default function Inputfield(props) {
     return (
         <div>
             <input
-                id={props.style}
+                placeholder={props.placeholder}
+                className={props.style}
                 required={props.required}
                 type={props.type}
                 value={props.value}

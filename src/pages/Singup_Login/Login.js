@@ -6,8 +6,12 @@ import { browserPopupRedirectResolver, GoogleAuthProvider } from "firebase/auth"
 import { getAuth, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom';
 import MyAlert from '../../components/MyAlert/MyAlert';
+import { doc, setDoc } from 'firebase/firestore';
+import { firestore } from '../../firebase';
 
 export default function Login() {
+
+    
     // States
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,6 +20,9 @@ export default function Login() {
     const [err, setErr] = useState({
         status: false, message: ''
     })
+    const [loading, setLoading] = useState(false);
+
+
     // Hooks Call
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
@@ -24,15 +31,18 @@ export default function Login() {
 
     // Email Password Login Function -
     const EmailSignInFunction = (e) => {
+        setLoading(true)
         e.preventDefault();
-        if (email.length <= 5 || password.length <= 5) {
-            setErr({ status: true, message: 'Email or Password must be longer than 5 characters' });
+        if (email.length <= 0 || password.length <= 0) {
+            setErr({ status: true, message: 'Details are either empty or invalid. Please Check again.' });
             return null;
         }
         signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
             const user = userCredentials.user;
-            navigate('/');
+            setLoading(false)
+            navigate('/', { replace: true });
         }).catch((err) => {
+            setLoading(false)
             setErr({ status: true, message: err.code });
         })
     }
@@ -40,12 +50,21 @@ export default function Login() {
 
     // Google Login Function - 
     const loginWithGoogle = () => {
+        setLoading(true)
         signInWithPopup(auth, provider, browserPopupRedirectResolver).then((userCredentials) => {
             const credential = GoogleAuthProvider.credentialFromResult(userCredentials);
             const token = credential.accessToken;
             const user = userCredentials.user;
-
+            setDoc(doc(firestore, "Users", user.uid), {
+                name: user.displayName,
+                email: user.email,
+                userType: 'customer',
+                createdAt: new Date()
+            });
+            setLoading(false)
+            navigate('/', { replace: true });
         }).catch((err) => {
+            setLoading(false)
             setErr({ status: true, message: err.code });
         })
     }
@@ -91,11 +110,12 @@ export default function Login() {
                         Login
                     </h3>
                 </div>
-                <div id='reg-text'>
-                    Registered Email
-                </div>
                 <form action="">
+                    <div id='reg-text'>
+                        Registered Email
+                    </div>
                     <Inputfield
+                        placeholder='registeredMail@email,com'
                         required={true}
                         style={'forminput'}
                         type={'email'}
@@ -109,6 +129,7 @@ export default function Login() {
 
                     <div className="eyediv" style={{ position: 'relative' }}>
                         <Inputfield
+                            placeholder='**********'
                             required={true}
                             style={'forminput'}
                             type={inputType}
@@ -127,9 +148,11 @@ export default function Login() {
                     </div>
                     <div className="btn-container">
                         <MyButton
-                            buttonTitle={'Continue'}
+                            disabled={loading ? true : false}
+                            buttonTitle={loading ? 'Processing...' : 'Continue'}
                             onClick={EmailSignInFunction}
                             style={'primary signinbtn'}
+                            type='submit'
                         />
                     </div>
                 </form>
@@ -140,7 +163,11 @@ export default function Login() {
                     </div>
 
                     <div className="margintop" style={{ marginTop: '1.4rem' }}></div>
-
+                    <div className="info" style={{
+                        fontSize: 'small',
+                        textAlign: 'center',
+                        color:'gray'
+                    }}>Seller can create account with Email only.</div>
                     <MyButton
                         buttonTitle={'Sign In With Google'}
                         onClick={loginWithGoogle}

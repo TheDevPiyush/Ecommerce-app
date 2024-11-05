@@ -3,9 +3,8 @@ import './MyAlert.scss';
 import MyButton from '../Buttons/MyButton';
 
 export default function MyAlert({ message, errorStatus }) {
-    if (!message) return null; // Don't render if there's no message
+    if (!message) return null;
 
-    // Determine the display message based on Firebase error codes
     const getErrorMessage = (message) => {
         switch (message) {
             case 'auth/user-not-found':
@@ -26,6 +25,8 @@ export default function MyAlert({ message, errorStatus }) {
                 return "Network error. Check your connection and try again.";
             case 'auth/invalid-credential':
                 return `Please check the entered credentials again. ${message}`;
+            case 'auth/popup-closed-by-user':
+                return 'Google Sign in was cancelled';
             default:
                 return message;
         }
