@@ -1,8 +1,8 @@
 import React from 'react'
-import ProductCard from '../../components/ProductCard/ProductCard'
+import ProductCard from '../ProductCard/ProductCard'
 import './ProductPage.scss'
 import { Link } from 'react-router-dom'
-export default function ProductPage(props) {
+export default function ProductContainer(props) {
     return (
         <>
             <div className="product-page">

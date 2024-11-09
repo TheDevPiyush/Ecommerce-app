@@ -5,7 +5,7 @@ export default function Inputfield(props) {
         <div>
             <input
                 placeholder={props.placeholder}
-                className={props.style}
+                className={props.Style}
                 required={props.required}
                 type={props.type}
                 value={props.value}

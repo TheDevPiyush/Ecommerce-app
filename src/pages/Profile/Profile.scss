@@ -1,0 +1,111 @@
+.profile-container {
+    position: relative;
+    max-width: 600px;
+    margin: 3.5rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+
+    .profile-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            padding: .5rem;
+            border-radius: 13px;
+            color: #555;
+            background-color: rgba(67, 104, 174, 0.122);
+        }
+    }
+
+    .profile-actions {
+        display: flex;
+        justify-content: space-around;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1.2rem;
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+
+            &:hover {
+                background-color: #0056b3;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .profile-icon {
+                margin-right: 0.5rem;
+            }
+        }
+
+        .fa-shopping-cart {
+            font-size: 1.5rem;
+            color: #007bff;
+            cursor: pointer;
+            transition: transform 0.3s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+    }
+}
+
+.label-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    flex-direction: column;
+    align-items: baseline;
+    margin: .7rem 0;
+    font-weight: bold;
+}
+
+.profile-item {
+    input {
+        margin: 0;
+        outline: none;
+        width: 100%;
+        height: 100%;
+        padding: .4rem;
+        border-radius: 10px;
+    }
+
+    select {
+        background-color: rgba(0, 0, 0, 0.106);
+        outline: none;
+        border: none;
+        padding: 0.2em;
+        border-radius: 10px;
+    }
+
+    input:focus {
+        outline: none;
+        border: none;
+    }
+}

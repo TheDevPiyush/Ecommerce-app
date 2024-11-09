@@ -11,8 +11,10 @@ import { firestore } from '../../firebase';
 
 export default function Login() {
 
-    
-    // States
+
+    // STATES VARIABLES -
+
+    // Input States
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [inputType, setInputType] = useState('password')
@@ -22,23 +24,52 @@ export default function Login() {
     })
     const [loading, setLoading] = useState(false);
 
+    // Input Validitation States
+    const [isEmailValid, setIsEmailValid] = useState(true);
+    const [isPasswordValid, setIsPasswordValid] = useState(true);
+
+    const [shakeTrigger, setShakeTrigger] = useState(false);
 
     // Hooks Call
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     const navigate = useNavigate();
 
+    // Input Validation Function -
+    const validateInputs = () => {
+        let valid = true;
+
+        if (!email.includes('@') || email.trim() === '') {
+            setIsEmailValid(false);
+            valid = false;
+        } else {
+            setIsEmailValid(true);
+        }
+
+        if (password.length < 5) {
+            setIsPasswordValid(false);
+            valid = false;
+        } else {
+            setIsPasswordValid(true);
+        }
+
+        return valid;
+    };
+
 
     // Email Password Login Function -
     const EmailSignInFunction = (e) => {
         setLoading(true)
         e.preventDefault();
-        if (email.length <= 0 || password.length <= 0) {
-            setErr({ status: true, message: 'Details are either empty or invalid. Please Check again.' });
-            return null;
+
+        if (!validateInputs()) {
+            setShakeTrigger(true); // Trigger shake
+            setTimeout(() => setShakeTrigger(false), 350);
+            setLoading(false);
+            return;
         }
+        setLoading(true)
         signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
-            const user = userCredentials.user;
             setLoading(false)
             navigate('/', { replace: true });
         }).catch((err) => {
@@ -48,18 +79,20 @@ export default function Login() {
     }
 
 
-    // Google Login Function - 
+    // Google Login Function - (<<<<<<< NOT USED IN FINAL CODE >>>>>>>)
     const loginWithGoogle = () => {
         setLoading(true)
         signInWithPopup(auth, provider, browserPopupRedirectResolver).then((userCredentials) => {
             const credential = GoogleAuthProvider.credentialFromResult(userCredentials);
-            const token = credential.accessToken;
             const user = userCredentials.user;
             setDoc(doc(firestore, "Users", user.uid), {
                 name: user.displayName,
                 email: user.email,
                 userType: 'customer',
-                createdAt: new Date()
+                createdAt: new Date(),
+                phoneNo: '',
+                gender: '',
+                userID: user.uid,
             });
             setLoading(false)
             navigate('/', { replace: true });
@@ -117,7 +150,7 @@ export default function Login() {
                     <Inputfield
                         placeholder='registeredMail@email,com'
                         required={true}
-                        style={'forminput'}
+                        Style={`forminput ${!isEmailValid && shakeTrigger ? 'invalid shake' : ''}`}
                         type={'email'}
                         value={email}
                         onChange={(getValue) => { setEmail(getValue) }}
@@ -131,7 +164,7 @@ export default function Login() {
                         <Inputfield
                             placeholder='**********'
                             required={true}
-                            style={'forminput'}
+                            Style={`forminput ${!isPasswordValid && shakeTrigger ? 'invalid shake' : ''}`}
                             type={inputType}
                             value={password}
                             onChange={(getValue) => { setPassword(getValue) }}
@@ -163,17 +196,17 @@ export default function Login() {
                     </div>
 
                     <div className="margintop" style={{ marginTop: '1.4rem' }}></div>
-                    <div className="info" style={{
+                    {/* <div className="info" style={{
                         fontSize: 'small',
                         textAlign: 'center',
-                        color:'gray'
-                    }}>Seller can create account with Email only.</div>
-                    <MyButton
+                        color: 'gray'
+                    }}>Seller can create account with Email only.</div> */}
+                    {/* <MyButton
                         buttonTitle={'Sign In With Google'}
                         onClick={loginWithGoogle}
                         style={'secondary signinbtn'}
                         img={'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png'}
-                    />
+                    /> */}
 
                     <MyButton
                         buttonTitle={'Create A New Account'}

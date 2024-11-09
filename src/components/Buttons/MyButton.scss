@@ -35,6 +35,10 @@ button{
     user-select: none;
     border-radius: 10px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 
     &:active {
         background-color: rgb(22, 109, 196);

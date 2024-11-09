@@ -1,23 +1,15 @@
 import React, { useEffect } from 'react'
-import { getAuth } from 'firebase/auth'
-import Navbar from '../../components/Navbar/Navbar'
-import ProductPage from '../ProductsPage/ProductPage';
+import ProductContainer from '../../components/ProductsContainer/ProductContainer';
 import './Home.scss'
-import { useNavigate } from 'react-router-dom'
+import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+
 export default function Home() {
 
     const auth = getAuth();
-    const navigate = useNavigate()
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                console.log(user)
-            }
-            else {
-                navigate('/login', { replace: true });
-            }
-        })
-    })
+    const navigate = useNavigate();
+
 
     const products = [
         {
@@ -137,8 +129,7 @@ export default function Home() {
 
     return (
         <div className="main">
-            <Navbar accountName={'AccountName'} />
-            <ProductPage
+            <ProductContainer
                 products={products}
             />
         </div>
