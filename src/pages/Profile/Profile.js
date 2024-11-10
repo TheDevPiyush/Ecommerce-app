@@ -19,6 +19,9 @@ const Profile = () => {
         address: userData ? userData.address : '',
     });
 
+    const [submitLoading, setSubmitLoading] = useState(false);
+
+    // validitity States
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(true);
     const [isNameValid, setIsNameValid] = useState(true);
@@ -46,8 +49,7 @@ const Profile = () => {
             setIsEmailValid(true);
         }
 
-
-        if (formData.phone.toString().length < 10) {
+        if (formData.phone.length < 10) {
             setIsPhoneValid(false);
             valid = false;
         } else {
@@ -59,10 +61,15 @@ const Profile = () => {
         } else {
             setIsAddressValid(true);
         }
+        if (!formData.gender) {
+            setIsGenderValid(false);
+            valid = false;
+        } else {
+            setIsGenderValid(true);
+        }
 
         return valid;
     };
-
     const inputRef = useRef(null);
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
@@ -82,6 +89,13 @@ const Profile = () => {
     };
 
     const handleSave = async () => {
+        setSubmitLoading(true);
+        if (!validateInputs()) {
+            setShakeTrigger(true); // Trigger shake
+            setTimeout(() => setShakeTrigger(false), 350);
+            setSubmitLoading(false);
+            return;
+        }
         const userRef = doc(firestore, 'Users', userData.userID);
         await updateDoc(userRef, {
             name: formData.name,
@@ -91,6 +105,7 @@ const Profile = () => {
             userType: formData.userType,
             address: formData.address
         });
+        setSubmitLoading(false);
         window.location.reload();
     };
 
@@ -212,7 +227,8 @@ const Profile = () => {
                 {isEditing ? (
                     <div className='save-cancel-container' style={{ display: 'flex', gap: '.5rem', width: '100%' }}>
                         <MyButton
-                            buttonTitle="Save"
+                            disabled={submitLoading}
+                            buttonTitle={submitLoading ? 'Processing...' : 'Save Details'}
                             onClick={handleSave}
                             style="primary"
                         />

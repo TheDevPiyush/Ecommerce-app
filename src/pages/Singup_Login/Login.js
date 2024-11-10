@@ -181,7 +181,7 @@ export default function Login() {
                     </div>
                     <div className="btn-container">
                         <MyButton
-                            disabled={loading ? true : false}
+                            disabled={loading}
                             buttonTitle={loading ? 'Processing...' : 'Continue'}
                             onClick={EmailSignInFunction}
                             style={'primary signinbtn'}
